@@ -1,1 +1,1 @@
-buildPack: docker
+buildPack: docker-helm
