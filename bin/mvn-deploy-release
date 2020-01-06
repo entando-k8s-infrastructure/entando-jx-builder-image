@@ -1,0 +1,16 @@
+#Builds, verifies and publishes the project for a release build. Integration tests are optional, but OWASP, Sonar,
+# GPG and 'prepare-for-nexus' are required
+mvn clean deploy sonar:sonar -Pcicd "$@" \
+  -Pprepare-for-nexus \
+  -Dmaven.test.failure.ignore=true \
+  -Dsonar.login=${SONAR_TOKEN} \
+  -DautoUpdate=false \
+  -DconnectionString=${OWASPDB_URL} \
+  -DdatabasePassword=${OWASPDB_PASSWORD} \
+  -DdatabaseUser=${OWASPDB_USERNAME} \
+  -Dgpg.homedir=${GPG_HOMEDIR} \
+  -Dgpg.keyname=${GPG_KEYNAME} \
+  -Dgpg.passphrase=${GPG_PASSPHRASE} \
+  -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
+  -Dentando.test.namespace.override=${REPO_NAME} \
+  -Dentando.test.name.suffix=${PIPELINE_CODE}ms${BUILD_NUMBER}

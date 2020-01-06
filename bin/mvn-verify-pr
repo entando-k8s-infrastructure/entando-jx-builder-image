@@ -1,0 +1,16 @@
+#verifies the code for a PR. Integration tests are optional, but OWASP and Sonar are required
+mvn verify sonar:sonar -Pcicd "$@" \
+  -Dsonar.login=${SONAR_TOKEN} \
+  -Dsonar.pullrequest.key=${PULL_NUMBER} \
+  -Dsonar.pullrequest.base=${PULL_BASE_SHA} \
+  -Dsonar.pullrequest.branch=${PULL_PULL_SHA} \
+  -Dsonar.pullrequest.provider=github \
+  -Dsonar.pullrequest.vsts.token.secured=${SONAR_GITHUB_TOKEN} \
+  -Dsonar.pullrequest.github.repository=${REPO_OWNER}/${REPO_NAME} \
+  -DautoUpdate=false \
+  -DconnectionString=${OWASPDB_URL} \
+  -DdatabasePassword=${OWASPDB_PASSWORD} \
+  -DdatabaseUser=${OWASPDB_USERNAME} \
+  -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
+  -Dentando.test.namespace.override=${REPO_NAME} \
+  -Dentando.test.name.suffix=${PIPELINE_CODE}pr${PULL_NUMBER}
