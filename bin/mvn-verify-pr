@@ -6,7 +6,7 @@ publish-status "Integration tests" "pending" "surefire-report.html"
 publish-status "Checkstyle" "pending" "checkstyle.html"
 publish-status "OWASP CVE" "pending" "dependency-check-report.html"
 
-mvn verify site:site sonar:sonar -Pcicd -Pin-process-verification "$@" \
+mvn verify site sonar:sonar -Pcicd -Pin-process-verification "$@" \
   -Dsonar.login=${SONAR_TOKEN} \
   -Dsonar.pullrequest.key=${PULL_NUMBER} \
   -Dsonar.pullrequest.base=${PULL_BASE_SHA} \

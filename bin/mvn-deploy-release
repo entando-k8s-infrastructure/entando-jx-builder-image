@@ -4,7 +4,7 @@
 # The contributor can still inspect whatever build results were produced in the logs and reports storage,
 # and if the build got to sonar:sonar, the quality gates in Sonar
 
-mvn clean deploy site:site sonar:sonar -Pin-process-verification "$@" \
+mvn clean deploy site sonar:sonar -Pin-process-verification "$@" \
   -Pprepare-for-nexus \
   -Dmaven.test.failure.ignore=true \
   -Dsonar.login=${SONAR_TOKEN} \
