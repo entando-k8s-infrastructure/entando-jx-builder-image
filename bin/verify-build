@@ -2,37 +2,41 @@
 #to our DevOps results storage in Github, and then inspect the build output to fail if our fail fast criteria have
 #not been met.
 #Currently we only check for Failsafe or Surefire failures, but we may want to extend this to fail on other criteria too
-jx step stash --pattern="target/site/*" --to-path=${REPO_NAME}/$1 -c reports --basedir=target/site
-if grep -rnw target/surefire-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/surefire-reports/*.xml -e "<error" >/dev/null 2>&1; then
-  echo >&2 "Unit tests failed for ${REPO_NAME}-$1."
-  FAILED_CHECKS="Unit tests; "
-  curl --request POST --data '{"state": "failure", "description": "Unit tests failed!", "target_url": "https://${REPO_OWNER}.github.io/devops-results/${REPO_NAME}/${1}/checkstyle.html"}' \
-    https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${PULL_PULL_SHA} \
-    -H "Authorization: token ${SONAR_TOKEN}" \
-    -H "Content-Type:application/json" \
-else
-  curl --request POST --data '{"state": "success", "description": "Unit tests successful!", "target_url": "https://${REPO_OWNER}.github.io/devops-results/${REPO_NAME}/${1}/checkstyle.html"}' \
-    https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${PULL_PULL_SHA} \
-    -H "Authorization: token ${SONAR_TOKEN}" \
-    -H "Content-Type:application/json" \
+export BUILD_NAME=${1}
 
+jx step stash --pattern="target/site/*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site
+if grep -rnw target/surefire-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/surefire-reports/*.xml -e "<error" >/dev/null 2>&1; then
+  echo >&2 "Unit tests failed for ${REPO_NAME}-${BUILD_NAME}."
+  FAILED_CHECKS="Unit tests; "
+  publish-status "Unit tests" "failure" "surefire-report.html"
+else
+  publish_status "Unit tests" "success" "surefire-report.html"
 fi
 if grep -rnw target/failsafe-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/failsafe-reports/*.xml -e "<error" >/dev/null 2>&1; then
-  echo >&2 "Integration tests failed for ${REPO_NAME}-$1."
+  echo >&2 "Integration tests failed for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECKS="${FAILED_CHECKS}Integration tests; "
+  publish-status "Integration tests" "failure" "surefire-report.html"
+else
+  publish_status "Integration tests" "success" "failsafe-report.html"
 fi
 if grep -rnw target/checkstyle-result.xml -e "<error" >/dev/null 2>&1; then
-  echo >&2 "Checkstyle rules were violated for ${REPO_NAME}-$1."
+  echo >&2 "Checkstyle rules were violated for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECKS="${FAILED_CHECKS}Checkstyle; "
+  publish-status "Checkstyle" "failure" "checkstyle.html"
+else
+  publish_status "Checkstyle tests" "success" "checkstyle.html"
 fi
 if grep -rnw target/site/dependency-check-junit.xml -e "<failure" >/dev/null 2>&1; then
-  echo >&2 "OWASP has found dependencies with vulnerabilities for ${REPO_NAME}-$1."
+  echo >&2 "OWASP has found dependencies with vulnerabilities for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECKS="${FAILED_CHECKS}OWASP Maven Dependency Check; "
+  publish-status "OWASP CVE" "failure" "dependency-check-report.html"
+else
+  publish_status "OWASP CVE tests" "success" "dependency-check-report.html"
 fi
 if [ -z "${FAILED_CHECKS}" ]; then
-  echo "Congratulations! No build failures found for ${REPO_NAME}-$1."
+  echo "Congratulations! No build failures found for ${REPO_NAME}-${BUILD_NAME}."
 else
-  echo >&2 "The following checks failed: for ${REPO_NAME}-$1 : ${FAILED_CHECKS}"
+  echo >&2 "The following checks failed: for ${REPO_NAME}-${BUILD_NAME} : ${FAILED_CHECKS}"
   exit 1
 fi
 
