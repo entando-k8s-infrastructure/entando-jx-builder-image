@@ -15,7 +15,7 @@ fi
 if grep -rnw target/failsafe-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/failsafe-reports/*.xml -e "<error" >/dev/null 2>&1; then
   echo >&2 "Integration tests failed for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECKS="${FAILED_CHECKS}Integration tests; "
-  publish-status "Integration tests" "failure" "surefire-report.html"
+  publish-status "Integration tests" "failure" "failsafe-report.html"
 else
   publish_status "Integration tests" "success" "failsafe-report.html"
 fi
