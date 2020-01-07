@@ -1,5 +1,5 @@
-STATE="$1"
-CONTEXT="$2"
+CONTEXT="$1"
+STATE="$2"
 FILE="$3"
 if [ "${PIPELINE_KIND}" == "pullrequest" ]; then
         curl --request POST --data "{\"context\":\"${CONTEXT}\", \"state\": \"${STATE}\", \"description\": \"${CONTEXT} ${STATE}!\", \"target_url\": \"https://${REPO_OWNER}.github.io/devops-results/${REPO_NAME}/PR-${PULL_NUMBER}/${FILE}\"}" \
