@@ -1,0 +1,17 @@
+#Only verifies the inter-process tests of projet. Typically involves the creation of a project and requires a name suffix. No Sonar, Checkstyle, OWASP
+set -e
+if [ "${PIPELINE_KIND}" == "release" ]; then
+    IMAGE_VERSION="${VERSION}"
+    SUFFIX="${PIPELINE_CODE}ms"
+else
+    SUFFIX="${PIPELINE_CODE}pr${PULL_NUMBER}"
+    IMAGE_VERSION="${PREVIEW_VERSION}"
+fi
+mvn verify -Pinter-process-verification \
+    -Dentando.k8s.operator.registry=${DOCKER_REGISTRY} \
+    -Dentando.k8s.operator.tests.run.target=K8S \
+    -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
+    -Dentando.test.namespace.override=${REPO_NAME} \
+    -Dentando.test.name.suffix=${SUFFIX} \
+    -Dentando.test.image.version=${IMAGE_VERSION} 
+

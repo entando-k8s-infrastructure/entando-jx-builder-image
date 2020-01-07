@@ -1,0 +1,4 @@
+if ! kubectl get clusterrolebinding ${1}-is-admin>/dev/null 2>&1; then
+   kubectl create clusterrolebinding ${1}-is-admin --clusterrole=cluster-admin --serviceaccount=${1}:default
+fi
+

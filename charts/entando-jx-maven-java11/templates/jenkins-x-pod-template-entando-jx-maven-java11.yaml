@@ -29,7 +29,7 @@ data:
           secretName: jenkins-release-gpg
       containers:
       - name: maven
-        image: docker.io/entando/entando-jx-maven-java11:1.0
+        image: docker-registry.default.svc.cluster.local:5000/entando/entando-jx-maven-java11:0.0.1
         args:
         - cat
         command:
@@ -43,8 +43,8 @@ data:
         - name: SONAR_TOKEN
           valueFrom:
             secretKeyRef:
-            name: entando-jx-common-secret
-            key: sonar.token
+              name: entando-jx-common-secret
+              key: sonar.token
         - name: SONAR_GITHUB_TOKEN
           valueFrom:
             secretKeyRef:
@@ -136,11 +136,13 @@ data:
 kind: ConfigMap
 metadata:
   annotations:
-    jenkins.io/chart: jenkins-x-platform    
+    jenkins.io/chart: jenkins-x-platform
+  creationTimestamp: '2020-01-06T14:12:19Z'
   labels:
     jenkins.io/chart-release: jenkins-x
     jenkins.io/kind: podTemplate
     jenkins.io/namespace: jx
     jenkins.io/version: 2.0.1610
-  name: entando-jx-pod-template-maven-java11
+  name: jenkins-x-pod-template-entando-jx-maven-java11
+
 
