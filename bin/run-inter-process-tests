@@ -10,7 +10,7 @@ else
     BUILD_NAME="PR-${PULL_NUMBER}"
 fi
 mvn verify -Pcicd -Pinter-process-verification \
-    -Dentando.k8s.operator.registry=${DOCKER_REGISTRY} \
+    -Dentando.docker.registry.override=${DOCKER_REGISTRY} \
     -Dentando.k8s.operator.tests.run.target=K8S \
     -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
     -Dentando.test.namespace.override=${REPO_NAME} \
