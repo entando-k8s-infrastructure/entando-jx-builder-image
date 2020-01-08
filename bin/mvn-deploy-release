@@ -17,7 +17,8 @@ mvn clean deploy site sonar:sonar -Pin-process-verification "$@" \
   -Dgpg.passphrase=${GPG_PASSPHRASE} \
   -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
   -Dentando.test.namespace.override=${REPO_NAME} \
-  -Dentando.test.name.suffix=${PIPELINE_CODE}ms${BUILD_NUMBER} 
+  -Dentando.test.name.suffix=${PIPELINE_CODE}ms${BUILD_NUMBER} \
+  -Dentando.k8s.operator.configmap.namespace=entando
 result=$?
 set -e
 verify-build master

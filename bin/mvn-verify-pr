@@ -20,7 +20,8 @@ mvn verify site sonar:sonar -Pcicd -Pin-process-verification "$@" \
   -DdatabaseUser=${OWASPDB_USERNAME} \
   -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
   -Dentando.test.namespace.override=${REPO_NAME} \
-  -Dentando.test.name.suffix=${PIPELINE_CODE}pr${PULL_NUMBER}
+  -Dentando.test.name.suffix=${PIPELINE_CODE}pr${PULL_NUMBER} \
+  -Dentando.k8s.operator.configmap.namespace=entando
 result=$?
 set -e
 verify-build PR-${PULL_NUMBER}

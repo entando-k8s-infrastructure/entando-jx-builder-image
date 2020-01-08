@@ -13,5 +13,7 @@ mvn verify -Pinter-process-verification \
     -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
     -Dentando.test.namespace.override=${REPO_NAME} \
     -Dentando.test.name.suffix=${SUFFIX} \
-    -Dentando.test.image.version=${IMAGE_VERSION} 
+    -Dentando.test.image.version=${IMAGE_VERSION} \
+    -Dentando.k8s.operator.configmap.namespace=entando
+
 
