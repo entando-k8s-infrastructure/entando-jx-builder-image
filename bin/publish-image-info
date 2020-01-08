@@ -1,1 +1,1 @@
-kubectl patch configmap image-versions -n entando -p "{\"data\":{\"${APP_NAME}\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"${EXECUTABLE_TYPE}\\\",\\\"docker-registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"image-namespace\\\":\\\"entando\\\"}\"}}"
+kubectl patch configmap entando-image-versions -n entando -p "{\"data\":{\"${APP_NAME}\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"${EXECUTABLE_TYPE}\\\",\\\"docker-registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"image-namespace\\\":\\\"entando\\\"}\"}}"
