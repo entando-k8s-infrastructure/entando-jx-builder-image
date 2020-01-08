@@ -3,11 +3,13 @@ set -e
 if [ "${PIPELINE_KIND}" == "release" ]; then
     IMAGE_VERSION="${VERSION}"
     SUFFIX="${PIPELINE_CODE}ms"
+    BUILD_NAME=master
 else
-    SUFFIX="${PIPELINE_CODE}pr${PULL_NUMBER}"
     IMAGE_VERSION="${PREVIEW_VERSION}"
+    SUFFIX="${PIPELINE_CODE}pr${PULL_NUMBER}"
+    BUILD_NAME="PR-${PULL_NUMBER}"
 fi
-mvn verify -Pinter-process-verification \
+mvn verify -Pcicd -Pinter-process-verification \
     -Dentando.k8s.operator.registry=${DOCKER_REGISTRY} \
     -Dentando.k8s.operator.tests.run.target=K8S \
     -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
@@ -15,5 +17,8 @@ mvn verify -Pinter-process-verification \
     -Dentando.test.name.suffix=${SUFFIX} \
     -Dentando.test.image.version=${IMAGE_VERSION} \
     -Dentando.k8s.operator.configmap.namespace=entando
-
+result=$?
+set -e
+verify-build ${BUILD_NAME}
+exit $result
 

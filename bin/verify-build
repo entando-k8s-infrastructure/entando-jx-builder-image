@@ -12,12 +12,14 @@ if grep -rnw target/surefire-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep
 else
   publish-status "Unit tests" "success" "surefire-report.html"
 fi
-if grep -rnw target/failsafe-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/failsafe-reports/*.xml -e "<error" >/dev/null 2>&1; then
-  echo >&2 "Integration tests failed for ${REPO_NAME}-${BUILD_NAME}."
-  FAILED_CHECKS="${FAILED_CHECKS}Integration tests; "
-  publish-status "Integration tests" "failure" "failsafe-report.html"
-else
-  publish-status "Integration tests" "success" "failsafe-report.html"
+if ls target/failsafe-reports/*.xml>/dev/null 2>&1; then
+  if grep -rnw target/failsafe-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/failsafe-reports/*.xml -e "<error" >/dev/null 2>&1; then
+    echo >&2 "Integration tests failed for ${REPO_NAME}-${BUILD_NAME}."
+    FAILED_CHECKS="${FAILED_CHECKS}Integration tests; "
+    publish-status "Integration tests" "failure" "failsafe-report.html"
+  else
+    publish-status "Integration tests" "success" "failsafe-report.html"
+  fi
 fi
 if grep -rnw target/checkstyle-result.xml -e "<error" >/dev/null 2>&1; then
   echo >&2 "Checkstyle rules were violated for ${REPO_NAME}-${BUILD_NAME}."
