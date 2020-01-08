@@ -11,6 +11,7 @@ else
 fi
 mvn verify -Pcicd -Pinter-process-verification \
     -Dentando.docker.registry.override=${DOCKER_REGISTRY} \
+    -Dentando.docker.image.version.default=6.0.0 \
     -Dentando.k8s.operator.tests.run.target=K8S \
     -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
     -Dentando.test.namespace.override=${REPO_NAME} \

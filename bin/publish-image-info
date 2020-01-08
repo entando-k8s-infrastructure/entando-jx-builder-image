@@ -1,1 +1,2 @@
+echo "Publishing image info for ${APP_NAME}"
 kubectl patch configmap entando-image-versions -n entando -p "{\"data\":{\"${APP_NAME}\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"${EXECUTABLE_TYPE}\\\",\\\"docker-registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"image-namespace\\\":\\\"entando\\\"}\"}}"
