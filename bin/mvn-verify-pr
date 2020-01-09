@@ -9,8 +9,8 @@ publish-status "OWASP CVE" "pending" "dependency-check-report.html"
 mvn verify site sonar:sonar -Pcicd -Pin-process-verification "$@" \
   -Dsonar.login=${SONAR_TOKEN} \
   -Dsonar.pullrequest.key=${PULL_NUMBER} \
-  -Dsonar.pullrequest.base=${PULL_BASE_SHA} \
-  -Dsonar.pullrequest.branch=${PULL_PULL_SHA} \
+  -Dsonar.pullrequest.base=master \
+  -Dsonar.pullrequest.branch=${BRANCH_NAME} \
   -Dsonar.pullrequest.provider=github \
   -Dsonar.pullrequest.vsts.token.secured=${SONAR_GITHUB_TOKEN} \
   -Dsonar.pullrequest.github.repository=${REPO_OWNER}/${REPO_NAME} \
