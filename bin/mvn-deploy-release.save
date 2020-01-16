@@ -1,0 +1,27 @@
+#Builds, verifies and publishes the project for a release build. Integration tests are optional, but OWASP, Sonar,
+# GPG and 'prepare-for-nexus' are required
+#All checks should fail fast so that an invalid build doesn't end up in Nexus.
+# The contributor can still inspect whatever build results were produced in the logs and reports storage,# and if the build got to sonar:sonar, the quality gates in Sonar
+publish-status "Unit tests" "pending" "surefire-report.html"
+publish-status "Integration tests" "pending" "surefire-report.html"
+publish-status "Checkstyle" "pending" "checkstyle.html"
+publish-status "OWASP CVE" "pending" "dependency-check-report.html"
+
+mvn clean deploy sonar:sonar -Pin-process-verification "$@" \
+  -Pprepare-for-nexus \
+  -Dmaven.test.failure.ignore=true \
+  -Dsonar.login=${SONAR_TOKEN} \
+  -DautoUpdate=false \
+  -DconnectionString=${OWASPDB_URL} \
+  -DdatabasePassword=${OWASPDB_PASSWORD} \
+  -DdatabaseUser=${OWASPDB_USERNAME} \
+  -Dgpg.homedir=${GPG_HOMEDIR} \
+  -Dgpg.keyname=${GPG_KEYNAME} \
+  -Dgpg.passphrase=${GPG_PASSPHRASE} \
+  -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
+  -Dentando.test.namespace.override=${REPO_NAME} \
+  -Dentando.test.name.suffix=${PIPELINE_CODE}ms${BUILD_NUMBER} 
+result=$?
+set -e
+verify-build master
+exit $result

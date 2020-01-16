@@ -29,7 +29,7 @@ data:
           secretName: jenkins-release-gpg
       containers:
       - name: maven
-        image: docker-registry.default.svc.cluster.local:5000/entando/entando-jx-maven-java11:0.0.1
+        image: docker-registry.default.svc.cluster.local:5000/entando/entando-jx-maven-java11:0.0.16
         args:
         - cat
         command:
@@ -120,8 +120,8 @@ data:
             cpu: 400m
             memory: 512Mi
           limits:
-            cpu: 1
-            memory: 1024Mi
+            cpu: 8
+            memory: 12024Mi
         volumeMounts:
           - mountPath: /home/jenkins
             name: workspace-volume
@@ -137,12 +137,11 @@ kind: ConfigMap
 metadata:
   annotations:
     jenkins.io/chart: jenkins-x-platform
-  creationTimestamp: '2020-01-06T14:12:19Z'
   labels:
     jenkins.io/chart-release: jenkins-x
     jenkins.io/kind: podTemplate
     jenkins.io/namespace: jx
-    jenkins.io/version: 2.0.1610
+    jenkins.io/version: 2.0.1865
   name: jenkins-x-pod-template-entando-jx-maven-java11
 
 

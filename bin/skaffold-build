@@ -1,0 +1,2 @@
+export VERSION=$(cat VERSION)
+skaffold build "$@"
