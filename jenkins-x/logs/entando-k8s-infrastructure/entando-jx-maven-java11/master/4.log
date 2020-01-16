@@ -1,37 +1,37 @@
 
-Showing logs for build [32mentando-k8s-infrastructure-enta-zd9xd-4[0m stage [32mfrom-build-pack[0m and container [32mstep-credential-initializer-npcqb[0m
-{"level":"warn","ts":1579181628.5706365,"logger":"fallback-logger","caller":"logging/config.go:69","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/0.8.0-**-support-backwards-incompats\" is not a valid GitHub commit ID"}
-{"level":"info","ts":1579181628.5725,"logger":"fallback-logger","caller":"creds-init/main.go:40","msg":"Credentials initialized."}
+Showing logs for build [32mentando-k8s-infrastructure-enta-sn7sz-4[0m stage [32mfrom-build-pack[0m and container [32mstep-credential-initializer-f44kx[0m
+{"level":"warn","ts":1579201886.816026,"logger":"fallback-logger","caller":"logging/config.go:69","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/0.8.0-**-support-backwards-incompats\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1579201886.8181448,"logger":"fallback-logger","caller":"creds-init/main.go:40","msg":"Credentials initialized."}
 
-Showing logs for build [32mentando-k8s-infrastructure-enta-zd9xd-4[0m stage [32mfrom-build-pack[0m and container [32mstep-working-dir-initializer-cdklg[0m
-{"level":"warn","ts":1579181631.3734725,"logger":"fallback-logger","caller":"logging/config.go:69","msg":"Fetch GitHub commit ID from kodata failed: open /var/run/ko/HEAD: no such file or directory"}
-{"level":"info","ts":1579181631.3768609,"logger":"fallback-logger","caller":"bash/main.go:64","msg":"Successfully executed command \"sh -c mkdir -p /workspace/source\"; output "}
+Showing logs for build [32mentando-k8s-infrastructure-enta-sn7sz-4[0m stage [32mfrom-build-pack[0m and container [32mstep-working-dir-initializer-zknzv[0m
+{"level":"warn","ts":1579201888.5157871,"logger":"fallback-logger","caller":"logging/config.go:69","msg":"Fetch GitHub commit ID from kodata failed: open /var/run/ko/HEAD: no such file or directory"}
+{"level":"info","ts":1579201888.519046,"logger":"fallback-logger","caller":"bash/main.go:64","msg":"Successfully executed command \"sh -c mkdir -p /workspace/source\"; output "}
 
-Showing logs for build [32mentando-k8s-infrastructure-enta-zd9xd-4[0m stage [32mfrom-build-pack[0m and container [32mstep-place-tools[0m
+Showing logs for build [32mentando-k8s-infrastructure-enta-sn7sz-4[0m stage [32mfrom-build-pack[0m and container [32mstep-place-tools[0m
 
-Showing logs for build [32mentando-k8s-infrastructure-enta-zd9xd-4[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-entando-k8s-infrastructure-enta-6tvbs[0m
-{"level":"warn","ts":1579181734.4116888,"logger":"fallback-logger","caller":"logging/config.go:69","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/0.8.0-**-support-backwards-incompats\" is not a valid GitHub commit ID"}
-{"level":"info","ts":1579181735.6846986,"logger":"fallback-logger","caller":"git/git.go:103","msg":"Successfully cloned https://github.com/entando-k8s-infrastructure/entando-**-maven-java11.git @ v0.0.22 in path /workspace/source"}
+Showing logs for build [32mentando-k8s-infrastructure-enta-sn7sz-4[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-entando-k8s-infrastructure-enta-q22rv[0m
+{"level":"warn","ts":1579201901.5289586,"logger":"fallback-logger","caller":"logging/config.go:69","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/0.8.0-**-support-backwards-incompats\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1579201902.7087326,"logger":"fallback-logger","caller":"git/git.go:103","msg":"Successfully cloned https://github.com/entando-k8s-infrastructure/**********-maven-java11.git @ v0.0.27 in path /workspace/source"}
 
-Showing logs for build [32mentando-k8s-infrastructure-enta-zd9xd-4[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
-Using SHAs from PULL_REFS=master:654311f6d90bfaa00f3fcf861cfe7718ea869452
+Showing logs for build [32mentando-k8s-infrastructure-enta-sn7sz-4[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
+Using SHAs from PULL_REFS=master:5e53d76e0f615afe8637b0981b2b30912cd34cc7
 WARNING: no SHAs to merge, falling back to initial cloned commit
 
-Showing logs for build [32mentando-k8s-infrastructure-enta-zd9xd-4[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-jx-git-credentials[0m
+Showing logs for build [32mentando-k8s-infrastructure-enta-sn7sz-4[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-jx-git-credentials[0m
 Generated Git credentials file /workspace/xdg_config/git/credentials
 
-Showing logs for build [32mentando-k8s-infrastructure-enta-zd9xd-4[0m stage [32mfrom-build-pack[0m and container [32mstep-build-container-build[0m
+Showing logs for build [32mentando-k8s-infrastructure-enta-sn7sz-4[0m stage [32mfrom-build-pack[0m and container [32mstep-build-container-build[0m
 [36mINFO[0m[0000] Downloading base image gcr.io/jenkinsxio/builder-maven-graalvm:2.0.1102-438 
-2020/01/16 13:35:37 No matching credentials were found, falling back on anonymous
+2020/01/16 19:11:44 No matching credentials were found, falling back on anonymous
 [36mINFO[0m[0000] Error while retrieving image from cache: getting file info: stat /workspace/sha256:439b3810d1a9a79d0479209e30a4e21501ee1f45a42edaeb28c6784d6cc52982: no such file or directory 
 [36mINFO[0m[0000] Downloading base image gcr.io/jenkinsxio/builder-maven-graalvm:2.0.1102-438 
-2020/01/16 13:35:37 No matching credentials were found, falling back on anonymous
+2020/01/16 19:11:44 No matching credentials were found, falling back on anonymous
 [36mINFO[0m[0001] Using files from context: [/workspace/source/bin/fetch-history-by-days /workspace/source/bin/fix-git-branches /workspace/source/bin/mvn-deploy-release /workspace/source/bin/mvn-verify-pr /workspace/source/bin/prepare-permissions /workspace/source/bin/publish-image-info /workspace/source/bin/publish-status /workspace/source/bin/run-inter-process-tests /workspace/source/bin/skaffold-build /workspace/source/bin/verify-build] 
 [36mINFO[0m[0001] Skipping unpacking as no commands require it. 
 [36mINFO[0m[0001] Taking snapshot of full filesystem...        
 [36mINFO[0m[0001] Using files from context: [/workspace/source/bin/fetch-history-by-days /workspace/source/bin/fix-git-branches /workspace/source/bin/mvn-deploy-release /workspace/source/bin/mvn-verify-pr /workspace/source/bin/prepare-permissions /workspace/source/bin/publish-image-info /workspace/source/bin/publish-status /workspace/source/bin/run-inter-process-tests /workspace/source/bin/skaffold-build /workspace/source/bin/verify-build] 
 [36mINFO[0m[0001] COPY bin/* /usr/bin/                         
 [36mINFO[0m[0001] Taking snapshot of files...                  
-error pushing image: failed to push to destination docker-registry.default.svc:5000/entando-k8s-infrastructure/entando-**-maven-java11:0.0.22: unsupported status code 401; body: 
+error pushing image: failed to push to destination docker-registry.default.svc:5000/entando-k8s-infrastructure/**********-maven-java11:0.0.27: unsupported status code 401; body: 
 [31m
 Pipeline failed on stage 'from-build-pack' : container 'step-build-container-build'. The execution of the pipeline has stopped.[0m
