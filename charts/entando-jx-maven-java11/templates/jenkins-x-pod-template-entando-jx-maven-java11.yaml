@@ -95,8 +95,6 @@ data:
             configMapKeyRef:
               name: jenkins-x-docker-registry
               key: docker.registry
-        - name: TILLER_NAMESPACE
-          value: kube-system
         - name: DOCKER_CONFIG
           value: /home/jenkins/.docker/
         - name: GIT_AUTHOR_EMAIL
@@ -114,14 +112,14 @@ data:
         - name: XDG_CONFIG_HOME
           value: /home/jenkins
         - name: _JAVA_OPTIONS
-          value: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx512m
+          value: -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx8000m
         resources:
           requests:
             cpu: 400m
-            memory: 512Mi
+            memory: 2Gi
           limits:
             cpu: 8
-            memory: 12024Mi
+            memory: 12Gi
         volumeMounts:
           - mountPath: /home/jenkins
             name: workspace-volume
@@ -136,12 +134,11 @@ data:
 kind: ConfigMap
 metadata:
   annotations:
-    jenkins.io/chart: jenkins-x-platform
+    jenkins.io/chart: env
   labels:
     jenkins.io/chart-release: jenkins-x
     jenkins.io/kind: podTemplate
     jenkins.io/namespace: jx
     jenkins.io/version: 2.0.1865
   name: jenkins-x-pod-template-entando-jx-maven-java11
-
 
