@@ -3,6 +3,6 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: draft
-  tag: dev
+  repository: https://index.docker.io/v1//entando-k8s-infrastructure/entando-jx-maven-java11
+  tag: 0.0.29
   pullPolicy: IfNotPresent
