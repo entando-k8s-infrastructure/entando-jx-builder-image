@@ -1,2 +1,2 @@
-FROM gcr.io/jenkinsxio/builder-maven-graalvm:2.0.1102-438
+FROM gcr.io/jenkinsxio/builder-maven-graalvm:0.1.560
 COPY bin/* /usr/bin/
