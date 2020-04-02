@@ -1,12 +1,14 @@
-#Verifies the code for a PR. Integration tests are optional, but OWASP and Sonar are required.
+#Verifies the code for a PR. Post-deployment tests are optional, but OWASP and Sonar are required.
 #Most checks should not fail so that the contributor can inspect the build results in the logs and reports storage,
 # and in the quality gates in Sonar
-publish-status "Unit tests" "pending" "surefire-report.html"
-publish-status "Integration tests" "pending" "failsafe-report.html"
+publish-status "Pre-deployment tests" "pending" "surefire-report.html"
+if [[ "${TEST_DEPLOYMENT}" == "true" ]]; then
+  publish-status "Post-deployment tests" "pending" "failsafe-report.html"
+fi
 publish-status "Checkstyle" "pending" "checkstyle.html"
 publish-status "OWASP CVE" "pending" "dependency-check-report.html"
 
-mvn verify site sonar:sonar -Pcicd -Pin-process-verification "$@" \
+mvn verify site sonar:sonar -Pno-fail -Ppre-deployment-verification "$@" \
   -Dsonar.login=${SONAR_TOKEN} \
   -Dsonar.pullrequest.key=${PULL_NUMBER} \
   -Dsonar.pullrequest.base=master \
@@ -24,5 +26,5 @@ mvn verify site sonar:sonar -Pcicd -Pin-process-verification "$@" \
   -Dentando.k8s.operator.configmap.namespace=entando
 result=$?
 set -e
-verify-build PR-${PULL_NUMBER}
+verify-pre-deployment-build PR-${PULL_NUMBER}
 exit $result

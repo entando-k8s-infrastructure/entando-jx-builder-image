@@ -1,0 +1,52 @@
+#Jenkins X lacks "onFailure" steps. For this reason, we are forced to let the main build succeed, stash the build output
+#to our DevOps results storage in Github, and then inspect the build output to fail if our fail fast criteria have
+#not been met.
+#Currently we only check for Failsafe or Surefire failures, but we may want to extend this to fail on other criteria too
+export BUILD_NAME=${1}
+
+jx step stash --pattern="target/site/*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site
+if ls target/surefire-reports/*.xml>/dev/null 2>&1; then
+  if grep -rnw target/surefire-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/surefire-reports/*.xml -e "<error" >/dev/null 2>&1; then
+    echo >&2 "Pre-deployment tests failed for ${REPO_NAME}-${BUILD_NAME}."
+    FAILED_CHECKS="Pre-deployment tests; "
+    publish-status "Pre-deployment tests" "failure" "surefire-report.html"
+  else
+    publish-status "Pre-deployment tests" "success" "surefire-report.html"
+  fi
+else
+  echo >&2 "No pre-deployment test results found for ${REPO_NAME}-${BUILD_NAME}."
+  FAILED_CHECKS="Pre-deployment tests; "
+  publish-status "Pre-deployment tests" "failure" "surefire-report.html"
+fi
+if [[ -f target/checkstyle-result.xml ]]; then
+  if grep -rnw target/checkstyle-result.xml -e "<error" >/dev/null 2>&1; then
+    echo >&2 "Checkstyle rules were violated for ${REPO_NAME}-${BUILD_NAME}."
+    FAILED_CHECKS="${FAILED_CHECKS}Checkstyle; "
+    publish-status "Checkstyle" "failure" "checkstyle.html"
+  else
+    publish-status "Checkstyle" "success" "checkstyle.html"
+  fi
+else
+  echo >&2 "No checkstyle results found for ${REPO_NAME}-${BUILD_NAME}."
+  FAILED_CHECKS="${FAILED_CHECKS}Checkstyle; "
+  publish-status "Checkstyle" "failure" "checkstyle.html"
+fi
+if [[ -f target/site/dependency-check-junit.xml ]]; then
+  if grep -rnw target/site/dependency-check-junit.xml -e "<failure" >/dev/null 2>&1; then
+    echo >&2 "OWASP has found dependencies with vulnerabilities for ${REPO_NAME}-${BUILD_NAME}."
+    FAILED_CHECKS="${FAILED_CHECKS}OWASP Maven Dependency Check; "
+    publish-status "OWASP CVE" "failure" "dependency-check-report.html"
+  else
+    publish-status "OWASP CVE" "success" "dependency-check-report.html"
+  fi
+else
+  echo >&2 "OWASP has found dependencies with vulnerabilities for ${REPO_NAME}-${BUILD_NAME}."
+  FAILED_CHECKS="${FAILED_CHECKS}OWASP Maven Dependency Check; "
+  publish-status "OWASP CVE" "failure" "dependency-check-report.html"
+fi
+if [ -z "${FAILED_CHECKS}" ]; then
+  echo "Congratulations! No build failures found for ${REPO_NAME}-${BUILD_NAME}."
+else
+  echo >&2 "The following checks failed: for ${REPO_NAME}-${BUILD_NAME} : ${FAILED_CHECKS}"
+  exit 1
+fi
