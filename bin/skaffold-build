@@ -1,4 +1,6 @@
-export VERSION=$(cat VERSION)
+if [ -f VERSION ]; then
+  export VERSION=$(cat VERSION)
+fi
 if [ -z "$EXECUTABLE_TYPE" ]; then
   skaffold build "$@"
 else
