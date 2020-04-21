@@ -7,8 +7,12 @@ if [[ "${TEST_DEPLOYMENT}" == "true" ]]; then
 fi
 publish-status "Checkstyle" "pending" "checkstyle.html"
 publish-status "OWASP CVE" "pending" "dependency-check-report.html"
-
-mvn verify site sonar:sonar -Pno-fail -Ppre-deployment-verification "$@" \
+if [ -z "$EXECUTABLE_TYPE" ]; then
+  EXECUTABLE_PROFILE=""
+else
+  EXECUTABLE_PROFILE="-P${EXECUTABLE_TYPE}"
+fi
+mvn verify site sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE_PROFILE} "$@" \
   -Dsonar.login=${SONAR_TOKEN} \
   -Dsonar.pullrequest.key=${PULL_NUMBER} \
   -Dsonar.pullrequest.base=master \
