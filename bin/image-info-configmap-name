@@ -1,0 +1,2 @@
+echo $VERSION|awk -F. '{printf "entando-docker-image-info-v%s.%s",$1,$2}'
+
