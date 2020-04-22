@@ -28,7 +28,7 @@ mvn verify site sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE
   -Dentando.test.namespace.override=${REPO_NAME} \
   -Dentando.test.name.suffix=${PIPELINE_CODE}pr${PULL_NUMBER} \
   -Dentando.k8s.operator.configmap.namespace=entando \
-  -Dentando.docker.image.info.configmap=$(image-info-configmap-name)
+  -Dentando.docker.image.info.configmap=${ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP}
 result=$?
 set -e
 verify-pre-deployment-build PR-${PULL_NUMBER}

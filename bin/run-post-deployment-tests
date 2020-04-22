@@ -16,7 +16,8 @@ mvn verify -Ppost-deployment-verification \
     -Dentando.test.namespace.override=${REPO_NAME} \
     -Dentando.test.name.suffix=${SUFFIX} \
     -Dentando.test.image.version=${IMAGE_VERSION} \
-    -Dentando.k8s.operator.configmap.namespace=entando
+    -Dentando.k8s.operator.configmap.namespace=entando \
+    -Dentando.docker.image.info.configmap=${ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP}
 if ls target/failsafe-reports/*.xml>/dev/null 2>&1; then
   jx step stash --pattern="target/site/failsafe-reports/*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site/
   if grep -rnw target/failsafe-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/failsafe-reports/*.xml -e "<error" >/dev/null 2>&1; then

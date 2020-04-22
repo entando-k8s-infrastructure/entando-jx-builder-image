@@ -1,2 +1,2 @@
 echo "Publishing image info for ${APP_NAME}"
-kubectl patch configmap $(image-info-configmap-name) -n entando -p "{\"data\":{\"${APP_NAME}\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"${EXECUTABLE_TYPE}\\\",\\\"registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"organization\\\":\\\"entando\\\"}\"}}"
+kubectl patch configmap ${ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP} -n entando -p "{\"data\":{\"${APP_NAME}\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"${EXECUTABLE_TYPE}\\\",\\\"registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"organization\\\":\\\"entando\\\"}\"}}"
