@@ -1,3 +1,2 @@
 echo "Publishing image info for ${APP_NAME}"
-CFG_MAP_NAME=$(echo $VERSION|awk -F. '{printf "entando-docker-image-info-v%s.%s",$1,$2}')
-kubectl patch configmap ${CFG_MAP_NAME} -n entando -p "{\"data\":{\"${APP_NAME}\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"${EXECUTABLE_TYPE}\\\",\\\"registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"organization\\\":\\\"entando\\\"}\"}}"
+kubectl patch configmap $(image-info-configmap-name) -n entando -p "{\"data\":{\"${APP_NAME}\":\"{\\\"version\\\":\\\"${VERSION}\\\",\\\"executable-type\\\":\\\"${EXECUTABLE_TYPE}\\\",\\\"registry\\\":\\\"${DOCKER_REGISTRY}\\\",\\\"organization\\\":\\\"entando\\\"}\"}}"

@@ -17,7 +17,9 @@ mvn clean deploy site sonar:sonar -Ppre-deployment-verification -Pprepare-for-ne
   -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
   -Dentando.test.namespace.override=${REPO_NAME} \
   -Dentando.test.name.suffix=${PIPELINE_CODE}ms${BUILD_NUMBER} \
-  -Dentando.k8s.operator.configmap.namespace=entando
+  -Dentando.k8s.operator.configmap.namespace=entando \
+  -Dentando.docker.image.info.configmap=$(image-info-configmap-name)
+
 result=$?
 set -e
 verify-pre-deployment-build master
