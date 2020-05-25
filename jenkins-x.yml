@@ -1,1 +1,9 @@
 buildPack: docker
+pipelineConfig:
+  pipelines:
+    release:
+      promote:
+        steps:
+          - name: apply-pod-template
+            sh: cat jenkins-x-pod-template-entando-jx-maven.yaml | sed  "s/MY_VERSION/$(cat VERSION)/" | kubectl apply -f -
+
