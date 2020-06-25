@@ -6,7 +6,7 @@ if [[ "${TEST_DEPLOYMENT}" == "true" ]]; then
   publish-status "Post-deployment tests" "pending" "failsafe-report.html"
 fi
 
-if [ "${SKIP_CHECKSTYLE}" != "false" ]; then 
+if [ "${SKIP_CHECKSTYLE}" != "true" ]; then 
   publish-status "Checkstyle" "pending" "checkstyle.html"
 fi  
 publish-status "OWASP CVE" "pending" "dependency-check-report.html"
