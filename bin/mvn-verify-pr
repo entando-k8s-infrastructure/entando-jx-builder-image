@@ -5,7 +5,10 @@ publish-status "Pre-deployment tests" "pending" "surefire-report.html"
 if [[ "${TEST_DEPLOYMENT}" == "true" ]]; then
   publish-status "Post-deployment tests" "pending" "failsafe-report.html"
 fi
-publish-status "Checkstyle" "pending" "checkstyle.html"
+
+if [ "${SKIP_CHECKSTYLE}" != "false" ]; then 
+  publish-status "Checkstyle" "pending" "checkstyle.html"
+fi  
 publish-status "OWASP CVE" "pending" "dependency-check-report.html"
 if [ -z "$EXECUTABLE_TYPE" ]; then
   EXECUTABLE_PROFILE=""
