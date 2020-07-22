@@ -1,0 +1,9 @@
+CONTEXT="$1"
+URL="$2"
+if [ "${PIPELINE_KIND}" == "pullrequest" ]; then
+        curl --request POST --data "{\"context\":\"${CONTEXT}\", \"state\": \"success\", \"description\": \"Review ${CONTEXT} here:\", \"target_url\": \"${URL}\"}" \
+    https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${PULL_PULL_SHA} \
+    -H "Authorization: token ${SONAR_GITHUB_TOKEN}" \
+    -H "Content-Type:application/json"
+fi
+
