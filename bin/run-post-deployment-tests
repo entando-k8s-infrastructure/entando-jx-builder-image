@@ -3,12 +3,14 @@ if [ "${PIPELINE_KIND}" == "release" ]; then
     IMAGE_VERSION="${VERSION}"
     SUFFIX="${PIPELINE_CODE}ms"
     BUILD_NAME=master
+    NO_FAIL=""
 else
     IMAGE_VERSION="${PREVIEW_VERSION}"
     SUFFIX="${PIPELINE_CODE}pr${PULL_NUMBER}"
     BUILD_NAME="PR-${PULL_NUMBER}"
+    NO_FAIL="-Pno-fail"
 fi
-mvn verify -Ppost-deployment-verification \
+mvn verify -Ppost-deployment-verification ${NO_FAIL} \
     -Dentando.docker.registry.override=${DOCKER_REGISTRY} \
     -Dentando.docker.image.version.fallback=6.0.0 \
     -Dentando.k8s.operator.tests.run.target=K8S \
