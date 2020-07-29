@@ -21,7 +21,7 @@ mvn verify -Ppost-deployment-verification ${NO_FAIL} \
     -Dentando.k8s.operator.configmap.namespace=entando \
     -Dentando.docker.image.info.configmap=${ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP}
 if ls target/failsafe-reports/*.xml>/dev/null 2>&1; then
-  jx step stash --pattern="target/site/failsafe-reports/*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site/
+  jx step stash --pattern="target/site/failsafe-report*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site/
   if grep -rnw target/failsafe-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/failsafe-reports/*.xml -e "<error" >/dev/null 2>&1; then
     echo >&2 "Post-deployment tests failed for ${REPO_NAME}-${BUILD_NAME}."
     publish-status "Post-deployment tests" "failure" "failsafe-report.html"
