@@ -1,0 +1,10 @@
+eval $(jx step git envs)
+pushd /tmp
+rm entando-core-bom -rf
+git clone https://${GIT_USERNAME}:${GIT_API_TOKEN}@github.com/entando/entando-core-bom.git
+pushd entando-core-bom
+sed -i "s:\(.*<${APP_NAME}.version>\)\(.*\)\(</${APP_NAME}.version>.*\):\1${VERSION}\3:g" pom.xml
+git commit -a -m "Bumped ${APP_NAME} to ${VERSION}"
+git push origin master
+popd
+popd
