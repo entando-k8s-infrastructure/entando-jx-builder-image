@@ -23,7 +23,7 @@ mvn install site sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABL
   -Dsonar.pullrequest.provider=github \
   -Dsonar.pullrequest.vsts.token.secured=${SONAR_GITHUB_TOKEN} \
   -Dsonar.pullrequest.github.repository=${REPO_OWNER}/${REPO_NAME} \
-  -DautoUpdate=${UPDATE_OWASP_DB:-false} \
+  -DautoUpdate=${UPDATE_OWASP_DATABASE:-false} \
   -DconnectionString=${OWASPDB_URL} \
   -DdatabasePassword=${OWASPDB_PASSWORD} \
   -DdatabaseUser=${OWASPDB_USERNAME} \

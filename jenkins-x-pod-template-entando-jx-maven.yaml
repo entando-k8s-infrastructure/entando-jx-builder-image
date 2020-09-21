@@ -91,6 +91,11 @@ data:
             secretKeyRef:
               name: entando-jx-common-secret
               key: owaspdb.url
+        - name: UPDATE_OWASP_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: entando-jx-common-secret
+              key: update.owasp.database
         - name: GPG_PASSPHRASE
           valueFrom:
             secretKeyRef:
