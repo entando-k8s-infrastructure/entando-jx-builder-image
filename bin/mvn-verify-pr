@@ -1,6 +1,7 @@
 #Verifies the code for a PR. Post-deployment tests are optional, but OWASP and Sonar are required.
 #Most checks should not fail so that the contributor can inspect the build results in the logs and reports storage,
 # and in the quality gates in Sonar
+set +e
 publish-status "Pre-deployment tests" "pending" "surefire-report.html"
 if [[ "${TEST_DEPLOYMENT}" == "true" ]]; then
   publish-status "Post-deployment tests" "pending" "failsafe-report.html"
@@ -15,7 +16,7 @@ if [ -z "$EXECUTABLE_TYPE" ]; then
 else
   EXECUTABLE_PROFILE="-P${EXECUTABLE_TYPE}"
 fi
-mvn install site sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE_PROFILE} "$@" \
+mvn install sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE_PROFILE} "$@" \
   -Dsonar.login=${SONAR_TOKEN} \
   -Dsonar.pullrequest.key=${PULL_NUMBER} \
   -Dsonar.pullrequest.base=master \
@@ -33,6 +34,7 @@ mvn install site sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABL
   -Dentando.k8s.operator.configmap.namespace=entando \
   -Dentando.docker.image.info.configmap=${ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP}
 result=$?
+mvn site -Ppre-deployment-verification
 set -e
 verify-pre-deployment-build PR-${PULL_NUMBER}
 exit $result

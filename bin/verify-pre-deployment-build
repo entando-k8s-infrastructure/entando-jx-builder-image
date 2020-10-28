@@ -16,7 +16,7 @@ if ls target/surefire-reports/*.xml>/dev/null 2>&1; then
 else
   echo >&2 "No pre-deployment test results found for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECK="No pre-deployment test results produced by build"
-  FAILED_CHECKS="${FAILED_CHECKS}${FAIlED_CHECK}\n"
+  FAILED_CHECKS="${FAILED_CHECKS}${FAILED_CHECK}\n"
   publish-status "Pre-deployment tests" "pending" "surefire-report.html" "${FAILED_CHECK}"
 fi
 if [[ -f target/checkstyle-result.xml ]]; then
@@ -30,7 +30,7 @@ if [[ -f target/checkstyle-result.xml ]]; then
 elif [ "${SKIP_CHECKSTYLE}" != "true" ]; then
   echo >&2 "No checkstyle results found for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECK="No checkstyle results produced by build"
-  FAILED_CHECKS="${FAILED_CHECKS}${FAIlED_CHECK}\n"
+  FAILED_CHECKS="${FAILED_CHECKS}${FAILED_CHECK}\n"
   publish-status "Checkstyle" "pending" "checkstyle.html" "${FAILED_CHECK}"
 fi
 if [[ -f target/site/dependency-check-junit.xml ]]; then
@@ -42,10 +42,10 @@ if [[ -f target/site/dependency-check-junit.xml ]]; then
     publish-status "OWASP CVE" "success" "dependency-check-report.html"
   fi
 else
-  echo >&2 "OWASP has found dependencies with vulnerabilities for ${REPO_NAME}-${BUILD_NAME}."
+  echo >&2 "No OWASP dependency check found for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECK="No OWASP dependency check results produced by build"
-  FAILED_CHECKS="${FAILED_CHECKS}${FAIlED_CHECK}\n"
-  publish-status "OWASP CVE" "pending" "dependency-check-report.html" "${FAIlED_CHECK}"
+  FAILED_CHECKS="${FAILED_CHECKS}${FAILED_CHECK}\n"
+  publish-status "OWASP CVE" "pending" "dependency-check-report.html" "${FAILED_CHECK}"
 fi
 if [ -z "${FAILED_CHECKS}" ]; then
   echo "Congratulations! No build failures found for ${REPO_NAME}-${BUILD_NAME}."
