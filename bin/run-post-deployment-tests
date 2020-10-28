@@ -10,7 +10,7 @@ else
     BUILD_NAME="PR-${PULL_NUMBER}"
     NO_FAIL="-Pno-fail"
 fi
-mvn verify -Ppost-deployment-verification ${NO_FAIL} \
+mvn verify site -Ppost-deployment-verification ${NO_FAIL} \
     -Dentando.docker.registry.override=${DOCKER_REGISTRY} \
     -Dentando.docker.image.version.fallback=6.0.0 \
     -Dentando.k8s.operator.tests.run.target=K8S \
@@ -31,6 +31,6 @@ if ls target/failsafe-reports/*.xml>/dev/null 2>&1; then
   fi
 else
   echo >&2 "No Post-deployment test results found for ${REPO_NAME}-${BUILD_NAME}."
-  publish-status "Post-deployment tests" "failure" "failsafe-report.html"
+  publish-status "Post-deployment tests" "pending" "failsafe-report.html" "No post-deployment test results produced by build"
   exit 1
 fi
