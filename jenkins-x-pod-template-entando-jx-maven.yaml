@@ -76,6 +76,21 @@ data:
             secretKeyRef:
               name: entando-jx-common-secret
               key: sonar.github.token
+        - name: ENTANDO_TEST_KEYCLOAK_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: entando-jx-common-secret
+              key: keycloak.admin.user
+        - name: ENTANDO_TEST_KEYCLOAK_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: entando-jx-common-secret
+              key: keycloak.admin.passowrd
+        - name: ENTANDO_TEST_KEYCLOAK_BASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: entando-jx-common-secret
+              key: keycloak.base.url
         - name: OWASPDB_USERNAME
           valueFrom:
             secretKeyRef:
