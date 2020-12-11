@@ -3,10 +3,17 @@
 #All checks should fail fast so that an invalid build doesn't end up in Nexus.
 # The contributor can still inspect whatever build results were produced in the logs and reports storage,
 # and if the build got to sonar:sonar, the quality gates in Sonar
+#temporary support for switching off both quality gates
+if [ "${SKIP_CHECKSTYLE}" == "true" ]; then
+  export SKIP_OWASP="true"
+else
+  export SKIP_OWASP="false"
+fi
 
 mvn clean deploy site sonar:sonar -Ppre-deployment-verification -Pprepare-for-nexus "$@" \
   -Dmaven.test.failure.ignore=true \
   -Dsonar.login=${SONAR_TOKEN} \
+  -Ddependency-check.skip=${SKIP_OWASP} \
   -DautoUpdate=${UPDATE_OWASP_DATABASE:-false} \
   -DconnectionString=${OWASPDB_URL} \
   -DdatabasePassword=${OWASPDB_PASSWORD} \

@@ -2,15 +2,23 @@
 #Most checks should not fail so that the contributor can inspect the build results in the logs and reports storage,
 # and in the quality gates in Sonar
 set +e
+#temporary support for switching off both quality gates
+if [ "${SKIP_CHECKSTYLE}" == "true" ]; then
+  export SKIP_OWASP="true"
+else
+  export SKIP_OWASP="false"
+fi
+
 publish-status "Pre-deployment tests" "pending" "surefire-report.html"
 if [[ "${TEST_DEPLOYMENT}" == "true" ]]; then
   publish-status "Post-deployment tests" "pending" "failsafe-report.html"
 fi
-
-if [ "${SKIP_CHECKSTYLE}" != "true" ]; then 
+if [ "${SKIP_CHECKSTYLE}" != "true" ]; then
   publish-status "Checkstyle" "pending" "checkstyle.html"
 fi  
-publish-status "OWASP CVE" "pending" "dependency-check-report.html"
+if [ "${SKIP_OWASP}" != "true" ]; then
+  publish-status "OWASP CVE" "pending" "dependency-check-report.html"
+fi
 if [ -z "$EXECUTABLE_TYPE" ]; then
   EXECUTABLE_PROFILE=""
 else
@@ -24,6 +32,7 @@ mvn install sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE_PRO
   -Dsonar.pullrequest.provider=github \
   -Dsonar.pullrequest.vsts.token.secured=${SONAR_GITHUB_TOKEN} \
   -Dsonar.pullrequest.github.repository=${REPO_OWNER}/${REPO_NAME} \
+  -Ddependency-check.skip=${SKIP_OWASP} \
   -DautoUpdate=${UPDATE_OWASP_DATABASE:-false} \
   -DconnectionString=${OWASPDB_URL} \
   -DdatabasePassword=${OWASPDB_PASSWORD} \

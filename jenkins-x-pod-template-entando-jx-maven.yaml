@@ -85,7 +85,7 @@ data:
           valueFrom:
             secretKeyRef:
               name: entando-jx-common-secret
-              key: keycloak.admin.passowrd
+              key: keycloak.admin.password
         - name: ENTANDO_TEST_KEYCLOAK_BASE_URL
           valueFrom:
             secretKeyRef:

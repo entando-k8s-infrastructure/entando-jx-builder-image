@@ -41,7 +41,7 @@ if [[ -f target/site/dependency-check-junit.xml ]]; then
   else
     publish-status "OWASP CVE" "success" "dependency-check-report.html"
   fi
-else
+elif [ "${SKIP_OWASP}" != "true" ]; then
   echo >&2 "No OWASP dependency check found for ${REPO_NAME}-${BUILD_NAME}."
   FAILED_CHECK="No OWASP dependency check results produced by build"
   FAILED_CHECKS="${FAILED_CHECKS}${FAILED_CHECK}\n"
