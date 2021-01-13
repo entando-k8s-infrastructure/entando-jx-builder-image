@@ -24,7 +24,7 @@ if [ -z "$EXECUTABLE_TYPE" ]; then
 else
   EXECUTABLE_PROFILE="-P${EXECUTABLE_TYPE}"
 fi
-mvn install sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE_PROFILE} "$@" \
+mvn deploy sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE_PROFILE} "$@" \
   -Dsonar.login=${SONAR_TOKEN} \
   -Dsonar.pullrequest.key=${PULL_NUMBER} \
   -Dsonar.pullrequest.base=master \
