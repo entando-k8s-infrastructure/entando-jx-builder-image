@@ -11,7 +11,7 @@ else
     NO_FAIL="-Pno-fail"
 fi
 mvn verify site -Ppost-deployment-verification ${NO_FAIL} \
-    -Dentando.docker.registry.override=${DOCKER_REGISTRY} \
+    -Dentando.docker.registry.fallback=${DOCKER_REGISTRY} \
     -Dentando.docker.image.version.fallback=6.0.0 \
     -Dentando.k8s.operator.tests.run.target=K8S \
     -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
