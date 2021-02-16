@@ -40,7 +40,7 @@ mvn deploy sonar:sonar -Pno-fail -Ppre-deployment-verification ${EXECUTABLE_PROF
   -Dentando.default.routing.suffix=${ENTANDO_DEFAULT_ROUTING_SUFFIX} \
   -Dentando.test.namespace.override=${REPO_NAME} \
   -Dentando.test.name.suffix=${PIPELINE_CODE}pr${PULL_NUMBER} \
-  -Dentando.k8s.operator.configmap.namespace=entando \
+  -Dentando.docker.image.info.namespace=entando \
   -Dentando.docker.image.info.configmap=${ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP}
 result=$?
 mvn site -Ppre-deployment-verification
