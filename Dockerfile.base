@@ -1,0 +1,31 @@
+FROM gcr.io/jenkinsxio/builder-maven-graalvm:latest
+ENV CHROME_DRIVER_VERSION=83.0.4103.39
+ENV ALLURE_VERSION=2.13.3
+
+RUN  export ARCH=$(case $(arch) in x86_64) echo -n amd64 ;; aarch64) echo -n arm64 ;; *) echo -n $(arch) ;; esac) \
+       && export OS=$(uname | awk '{print tolower($0)}') \
+       && export OPERATOR_SDK_DL_URL=https://github.com/operator-framework/operator-sdk/releases/latest/download \
+       && curl -LO ${OPERATOR_SDK_DL_URL}/operator-sdk_${OS}_${ARCH} \
+       && chmod +x operator-sdk_${OS}_${ARCH} && mv operator-sdk_${OS}_${ARCH} /usr/local/bin/operator-sdk
+
+#opm not supported on Centos 7
+#RUN cd /tmp \
+#      && wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-4.6/opm-linux-4.6.21.tar.gz \
+#      && tar -xvf opm-linux-4.6.21.tar.gz \
+#      && mv opm /usr/local/bin/ \
+#      && chmod a+rx /usr/local/bin/opm \
+#      && rm opm-linux-4.6.21.tar.gz
+
+# Google Chrome
+RUN yum update -y \
+    && yum install epel-release -y \
+    && yum install --enablerepo=centosplus -y --quiet git
+#     chromium chromium-headless chromedriver
+
+#Allure CLI
+#RUN wget --no-verbose -O /tmp/allure-cli.zip https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${ALLURE_VERSION}/allure-commandline-${ALLURE_VERSION}.zip \
+#    && unzip /tmp/allure-cli.zip -d /opt \
+#    && rm /tmp/allure-cli.zip \
+#    && chmod 755 /opt/allure-${ALLURE_VERSION}/bin/allure \
+#    && ln -s /opt/allure-${ALLURE_VERSION}/bin/allure /usr/bin/allure
+
