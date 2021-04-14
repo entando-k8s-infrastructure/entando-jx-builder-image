@@ -3,11 +3,11 @@
 # and in the quality gates in Sonar
 set +e
 #temporary support for switching off both quality gates
-if [ "${SKIP_CHECKSTYLE}" == "true" ]; then
-  export SKIP_OWASP="true"
-else
-  export SKIP_OWASP="false"
-fi
+#if [ "${SKIP_CHECKSTYLE}" == "true" ]; then
+#  export SKIP_OWASP="true"
+#else
+#  export SKIP_OWASP="false"
+#fi
 
 publish-status "Pre-deployment tests" "pending" "surefire-report.html"
 if [[ "${TEST_DEPLOYMENT}" == "true" ]]; then
