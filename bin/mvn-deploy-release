@@ -18,6 +18,7 @@ mvn clean deploy site sonar:sonar -Ppre-deployment-verification -Pprepare-for-ne
   -DconnectionString=${OWASPDB_URL} \
   -DdatabasePassword=${OWASPDB_PASSWORD} \
   -DdatabaseUser=${OWASPDB_USERNAME} \
+  -Dgpg.skip=true \
   -Dgpg.homedir=${GPG_HOMEDIR} \
   -Dgpg.keyname=${GPG_KEYNAME} \
   -Dgpg.passphrase=${GPG_PASSPHRASE} \
