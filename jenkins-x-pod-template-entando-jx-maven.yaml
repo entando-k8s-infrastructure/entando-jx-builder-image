@@ -171,7 +171,7 @@ data:
           - name: volume-1
             mountPath: /home/jenkins/.docker
           - name: volume-2
-            mountPath: /home/jenkins/.gnupg
+            mountPath: /home/jenkins/.gnupg-src
 kind: ConfigMap
 metadata:
   labels:

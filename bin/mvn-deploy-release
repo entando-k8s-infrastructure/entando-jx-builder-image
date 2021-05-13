@@ -9,7 +9,7 @@
 #else
 #  export SKIP_OWASP="false"
 #fi
-
+cp -r /home/jenkins/.gnupg-src /home/jenkins/.gnupg
 mvn clean deploy site sonar:sonar -Ppre-deployment-verification -Pprepare-for-nexus "$@" \
   -Dmaven.test.failure.ignore=true \
   -Dsonar.login=${SONAR_TOKEN} \
