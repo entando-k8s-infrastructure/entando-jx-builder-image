@@ -6,12 +6,17 @@ export BUILD_NAME=${1}
 
 env JX_LOG_LEVEL=error jx step stash --pattern="target/site/*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site
 if ls target/surefire-reports/*.xml>/dev/null 2>&1; then
+  if [[ -d target/site/allure-maven-plugin ]]; then
+    TEST_REPORT_INDEX="allure-maven-plugin/index.html"
+  else
+    TEST_REPORT_INDEX="surefire-report.html"
+  fi
   if grep -rnw target/surefire-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/surefire-reports/*.xml -e "<error" >/dev/null 2>&1; then
     echo >&2 "Pre-deployment tests failed for ${REPO_NAME}-${BUILD_NAME}."
     FAILED_CHECKS="Pre-deployment tests\n"
-    publish-status "Pre-deployment tests" "failure" "surefire-report.html"
+    publish-status "Pre-deployment tests" "failure" ${TEST_REPORT_INDEX}
   else
-    publish-status "Pre-deployment tests" "success" "surefire-report.html"
+    publish-status "Pre-deployment tests" "success" ${TEST_REPORT_INDEX}
   fi
 else
   echo >&2 "No pre-deployment test results found for ${REPO_NAME}-${BUILD_NAME}."
@@ -19,6 +24,10 @@ else
   FAILED_CHECKS="${FAILED_CHECKS}${FAILED_CHECK}\n"
   publish-status "Pre-deployment tests" "pending" "surefire-report.html" "${FAILED_CHECK}"
 fi
+if [[ -d target/site/jacoco ]]; then
+  publish-status "Coverage" "success" "jacoco/index.html" "Coverage report generated"
+fi
+
 if [[ -f target/checkstyle-result.xml ]]; then
   if grep -rnw target/checkstyle-result.xml -e "<error" >/dev/null 2>&1; then
     echo >&2 "Checkstyle rules were violated for ${REPO_NAME}-${BUILD_NAME}."
