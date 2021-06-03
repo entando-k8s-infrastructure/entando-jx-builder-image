@@ -6,8 +6,8 @@ export BUILD_NAME=${1}
 
 env JX_LOG_LEVEL=error jx step stash --pattern="target/site/*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site
 if ls target/surefire-reports/*.xml>/dev/null 2>&1; then
-  if [[ -d target/site/allure-maven-plugin ]]; then
-    TEST_REPORT_INDEX="allure-maven-plugin/index.html"
+  if [[ -d target/site/allure-reports ]]; then
+    TEST_REPORT_INDEX="allure-reports/index.html"
   else
     TEST_REPORT_INDEX="surefire-report.html"
   fi
