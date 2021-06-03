@@ -22,13 +22,19 @@ mvn verify site -Ppost-deployment-verification ${NO_FAIL} \
     -Dentando.docker.image.info.namespace=entando \
     -Dentando.docker.image.info.configmap=${ENTANDO_DOCKER_IMAGE_INFO_CONFIGMAP}
 if ls target/failsafe-reports/*.xml>/dev/null 2>&1; then
-  env JX_LOG_LEVEL=error  jx step stash --pattern="target/site/failsafe-report*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site/
+  if [[ -d target/site/allure-smoke-reports ]]; then
+    TEST_REPORT_INDEX="allure-smoke-reports/index.html"
+    env JX_LOG_LEVEL=error  jx step stash --pattern="target/site/allure-smoke-reports*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site/
+  else
+    env JX_LOG_LEVEL=error  jx step stash --pattern="target/site/failsafe-report*" --to-path=${REPO_NAME}/${BUILD_NAME} -c reports --basedir=target/site/
+    TEST_REPORT_INDEX="failsafe-report.html"
+  fi
   if grep -rnw target/failsafe-reports/*.xml -e "<failure" >/dev/null 2>&1 || grep -rnw target/failsafe-reports/*.xml -e "<error" >/dev/null 2>&1; then
     echo >&2 "Post-deployment tests failed for ${REPO_NAME}-${BUILD_NAME}."
-    publish-status "Post-deployment tests" "failure" "failsafe-report.html"
+    publish-status "Post-deployment tests" "failure" ${TEST_REPORT_INDEX}
     exit 1
   else
-    publish-status "Post-deployment tests" "success" "failsafe-report.html"
+    publish-status "Post-deployment tests" "success" ${TEST_REPORT_INDEX}
   fi
 else
   echo >&2 "No Post-deployment test results found for ${REPO_NAME}-${BUILD_NAME}."
