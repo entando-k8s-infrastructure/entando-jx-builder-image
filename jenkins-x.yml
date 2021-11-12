@@ -1,7 +1,7 @@
 buildPack: docker
 pipelineConfig:
   agent:
-    image: ghcr.io/jenkins-x/builder-jx:2.1.155-778-patch3
+    image: entando-jx-maven
   env:
     - name: BUILDER_JX_IMAGE
       value: ghcr.io/jenkins-x/builder-jx:2.1.155-778-patch3
